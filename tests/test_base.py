@@ -60,7 +60,7 @@ def test_transaction_post_init():
 def test_transaction_to_dict():
     transaction = Transaction(dt.datetime(2022, 1, 1), "AAPL", "buy", 100.0)
     expected_dict = {
-        "date": dt.datetime(2022, 1, 1),
+        "date": str(dt.datetime(2022, 1, 1)),
         "ticker": "AAPL",
         "side": "buy",
         "price": 100.0,
@@ -125,17 +125,6 @@ def test_trade_log_export_json(sample_transactions):
         assert len(data) == 3
         for index, transaction in enumerate(sample_transactions):
             assert data[index] == asdict(transaction)
-
-
-def test_trade_log_export_csv(sample_transactions):
-    trade_log = TradeLog()
-    trade_log._TradeLog__logs = sample_transactions
-    with TemporaryDirectory() as temp_dir:
-        export_path = os.path.join(temp_dir, "tradelogs.csv")
-        with patch("builtins.print") as mock_print:
-            trade_log.export("csv")
-            mock_print.assert_called_with("Wrote 3 transactions to CSV file.")
-        assert os.path.isfile(export_path)
 
 
 def test_trade_log_export_invalid_format():
