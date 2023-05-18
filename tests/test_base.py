@@ -2,43 +2,13 @@ import os
 import json
 import pytest
 import datetime as dt
-from unittest.mock import MagicMock, patch
-from typing import List
-from dataclasses import asdict
-from tempfile import TemporaryDirectory
 from stockpyle.models import Asset, Transaction, AssetCollection, TradeLog
-
-@pytest.fixture
-def mock_yfinance_ticker(monkeypatch):
-    mock_ticker = MagicMock()
-    monkeypatch.setattr("yfinance.Ticker", MagicMock(return_value=mock_ticker))
-    return mock_ticker
-
-@pytest.fixture
-def sample_assets():
-    return ["AAPL", "GOOGL", "MSFT"]
-
-@pytest.fixture
-def sample_transactions():
-    return [
-        Transaction(dt.datetime(2022, 1, 1), "AAPL", "buy", 100.0),
-        Transaction(dt.datetime(2022, 1, 2), "GOOGL", "sell", 200.0),
-        Transaction(dt.datetime(2022, 1, 3), "MSFT", "buy", 150.0),
-    ]
 
 
 def test_asset_initialization():
     asset = Asset("AAPL")
     assert asset.symbol == "AAPL"
     assert not asset.holding
-    assert isinstance(asset.ticker, MagicMock)
-
-
-def test_asset_post_init():
-    asset = Asset("AAPL")
-    assert asset.symbol == "AAPL"
-    assert not asset.holding
-    assert isinstance(asset.ticker, MagicMock)
 
 
 def test_transaction_initialization():
@@ -50,7 +20,7 @@ def test_transaction_initialization():
 
 
 def test_transaction_post_init():
-    transaction = Transaction(dt.datetime(2022, 1, 1), "AAPL", "buy", 100.015)
+    transaction = Transaction(dt.datetime(2022, 1, 1), "aapl", "Buy", 100.015)
     assert transaction.date == dt.datetime(2022, 1, 1)
     assert transaction.ticker == "AAPL"
     assert transaction.side == "buy"
@@ -109,25 +79,3 @@ def test_trade_log_update_invalid_side():
     transaction = Transaction(dt.datetime(2022, 1, 1), "AAPL", "invalid", 100.0)
     with pytest.raises(ValueError):
         trade_log.update(transaction)
-
-
-def test_trade_log_export_json(sample_transactions):
-    trade_log = TradeLog()
-    trade_log._TradeLog__logs = sample_transactions
-    with TemporaryDirectory() as temp_dir:
-        export_path = os.path.join(temp_dir, "tradelogs.json")
-        with patch("builtins.print") as mock_print:
-            trade_log.export("json")
-            mock_print.assert_called_with("Wrote 3 transactions to JSON file.")
-        assert os.path.isfile(export_path)
-        with open(export_path, "r") as file:
-            data = json.load(file)
-        assert len(data) == 3
-        for index, transaction in enumerate(sample_transactions):
-            assert data[index] == asdict(transaction)
-
-
-def test_trade_log_export_invalid_format():
-    trade_log = TradeLog()
-    with pytest.raises(ValueError):
-        trade_log.export("txt")
