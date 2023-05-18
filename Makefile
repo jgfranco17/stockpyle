@@ -20,9 +20,9 @@ setup:  ## Execute installation.
 	@echo "Project setup complete!"
 	
 .PHONY: run
-run:  ## Launch API.
+run:  ## Run trader.
 	@echo "Running main app..."
-	@python3 app.py --port $(PORT)
+	@python3 app.py
 
 .PHONY: test
 test:  ## Run PyTest unit tests.
