@@ -45,7 +45,7 @@ class SingleAssetTrader:
         transaction = Transaction(**details)
         self.__tradelog.update(transaction)
 
-    def run(self) -> None:
+    def run(self, save: bool = False) -> None:
         """
         Run the algorithmic trader continuously.
         """
@@ -95,5 +95,6 @@ class SingleAssetTrader:
             except KeyboardInterrupt:
                 self.__is_running = False
                 print("\nShutting down trading bot!")
-                self.__tradelog.export()
+                if save:
+                    self.__tradelog.export()
                 break
