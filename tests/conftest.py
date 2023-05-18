@@ -1,14 +1,25 @@
-import sys
 import pytest
+import datetime as dt
+from unittest.mock import MagicMock
+from capytal.models import Transaction
 
 
-# each test runs on cwd to its temp dir
-@pytest.fixture(autouse=True)
-def go_to_tmpdir(request):
-    # Get the fixture dynamically by its name.
-    tmpdir = request.getfixturevalue("tmpdir")
-    # ensure local test created packages can be imported
-    sys.path.insert(0, str(tmpdir))
-    # Chdir only for the duration of the test.
-    with tmpdir.as_cwd():
-        yield
+@pytest.fixture
+def mock_yfinance_ticker(monkeypatch):
+    mock_ticker = MagicMock()
+    monkeypatch.setattr("yfinance.Ticker", MagicMock(return_value=mock_ticker))
+    return mock_ticker
+
+
+@pytest.fixture
+def sample_assets():
+    return ["AAPL", "GOOGL", "MSFT"]
+
+
+@pytest.fixture
+def sample_transactions():
+    return [
+        Transaction(dt.datetime(2022, 1, 1), "AAPL", "buy", 100.0),
+        Transaction(dt.datetime(2022, 1, 2), "GOOGL", "sell", 200.0),
+        Transaction(dt.datetime(2022, 1, 3), "MSFT", "buy", 150.0),
+    ]
