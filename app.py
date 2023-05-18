@@ -1,9 +1,4 @@
-from stockpyle.trader import SingleAssetTrader
-
-
-def main():
-    traderbot = SingleAssetTrader("MSFT")
-    traderbot.run()
+from stockpyle.cli import main
 
 
 if __name__ == "__main__":
