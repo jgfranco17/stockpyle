@@ -6,7 +6,7 @@ from unittest.mock import MagicMock, patch
 from typing import List
 from dataclasses import asdict
 from tempfile import TemporaryDirectory
-from capytal.models import Asset, Transaction, AssetCollection, TradeLog
+from stockpyle.models import Asset, Transaction, AssetCollection, TradeLog
 
 @pytest.fixture
 def mock_yfinance_ticker(monkeypatch):
