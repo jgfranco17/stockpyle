@@ -1,4 +1,5 @@
 import argparse
+from .trader import SingleAssetTrader
 
 
 def get_args():
@@ -8,3 +9,9 @@ def get_args():
                         help="Stock ticker symbol to monitor")
     args = parser.parse_args()
     return args
+
+
+def main():
+    args = get_args()
+    traderbot = SingleAssetTrader(symbol=args.symbol)
+    traderbot.run()
