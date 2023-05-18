@@ -1,4 +1,4 @@
-from capytal.trader import SingleAssetTrader
+from stockpyle.trader import SingleAssetTrader
 
 
 def main():
