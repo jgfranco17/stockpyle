@@ -3,10 +3,13 @@ from .trader import SingleAssetTrader
 
 
 def get_args():
-    parser = argparse.ArgumentParser("Capytal Trader")
+    parser = argparse.ArgumentParser("Stockpyle Trader")
     parser.add_argument("symbol",
                         type=str,
                         help="Stock ticker symbol to monitor")
+    parser.add_argument("--export-data", 
+                        default=False, action="store_true",
+                        help="Export the transaction history as JSON")
     args = parser.parse_args()
     return args
 
@@ -17,10 +20,10 @@ def main():
  /   _____//  |_  ____   ____ |  | ________ ___.__.|  |   ____
  \_____  \\   __\/  _ \_/ ___\|  |/ /\____ <   |  ||  | _/ __ \
  /        \|  | (  <_> )  \___|    < |  |_> >___  ||  |_\  ___/
-/_______  /|__|  \____/ \___  >__|_ \|   __// ____||____/\_____>
-        \/                  \/     \/|__|   \/
+/_________/|__|  \____/ \_____>__|__\|   __//_____||____/\_____>
+                                     |__|
     """
     args = get_args()
     print(header)
     traderbot = SingleAssetTrader(symbol=args.symbol)
-    traderbot.run()
+    traderbot.run(save=args.export_data)
