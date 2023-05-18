@@ -40,17 +40,28 @@ class AssetCollection:
 
 class TradeLog:
     def __init__(self) -> None:
-        self.__buy_log = []
-        self.__sell_log = []
+        self.__logs = []
+        self.__buy_count = 0
+        self.__sell_count = 0
 
     @property
     def buy_count(self) -> int:
-        return len(self.__log)
+        return self.__buy_count
 
-    def update(self, transaction: Transaction):
+    @property
+    def sell_count(self) -> int:
+        return self.__sell_count
+
+    def update(self, transaction: Transaction) -> None:
         if transaction.side == "buy":
-            self.__buy_log.append(transaction)
-        if transaction.side == "sell":
-            self.__sell_log.append(transaction)
+            self.__buy_count += 1
+        elif transaction.side == "sell":
+            self.__sell_count += 1
         else:
-            raise ValueError(f'Expecting \"buy\" or \"sell\", got \"{transaction.side}\"')
+            raise ValueError(f'Expecting \"buy\" or \"sell\", got \"{transaction.side}\".')
+
+        self.__logs.append(transaction)
+
+    def export(self, format: str) -> None:
+        if format.lower() not in ("json", "csv"):
+            raise ValueError(f'Expecting \"json\" or \"csv\" format, got \"{format}\".')
