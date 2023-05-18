@@ -32,10 +32,10 @@ test:  ## Run PyTest unit tests.
 
 .PHONY: lint
 lint:  ## Run pep8, black, mypy linters.
-	$(ENV_PREFIX)pylint capytal/
-	$(ENV_PREFIX)flake8 capytal/
-	$(ENV_PREFIX)black -l 80 --check capytal/
-	$(ENV_PREFIX)mypy --ignore-missing-imports capytal/
+	$(ENV_PREFIX)pylint stockpyle/
+	$(ENV_PREFIX)flake8 stockpyle/
+	$(ENV_PREFIX)black -l 80 --check stockpyle/
+	$(ENV_PREFIX)mypy --ignore-missing-imports stockpyle/
 
 .PHONY: show
 show:  ## Show the current environment.
