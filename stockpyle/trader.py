@@ -3,6 +3,7 @@ import datetime as dt
 import pandas as pd
 import pandas_ta as ta
 import yfinance as yf
+from tqdm import tqdm
 from .models import Asset, TradeLog, Transaction
 from .utils import get_pause
 
@@ -88,7 +89,12 @@ class SingleAssetTrader:
                         "price": price
                     })
 
-                time.sleep(get_pause())
+                wait_interval = get_pause()
+                if wait_interval:
+                    for _ in tqdm(range(wait_interval), desc=f'Waiting {wait_interval}s'):
+                        time.sleep(1)
+                else:
+                    continue
 
             except KeyboardInterrupt:
                 self.__is_running = False
