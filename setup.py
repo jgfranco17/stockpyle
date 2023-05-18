@@ -31,7 +31,7 @@ def read_requirements(path):
 setup(
     name="capytal",
     version=read("capytal", "VERSION"),
-    description="Awesome capytal created by jgfranco17",
+    description="Python-based algorithmic trading bot",
     url="https://github.com/jgfranco17/capytal/",
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
