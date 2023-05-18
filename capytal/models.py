@@ -1,3 +1,5 @@
+import os
+import json
 import datetime as dt
 import yfinance as yf
 from typing import List
@@ -27,6 +29,14 @@ class Transaction:
         self.side = self.side.lower()
         self.price = round(self.price, 2)
 
+    def to_dict(self) -> dict:
+        return {
+            "date": self.date,
+            "ticker": self.ticker,
+            "side": self.side,
+            "price": self.price
+        }
+
 
 class AssetCollection:
     def __init__(self, symbols: List[str]):
@@ -40,7 +50,7 @@ class AssetCollection:
 
 class TradeLog:
     def __init__(self) -> None:
-        self.__logs = []
+        self.__logs: List[Transaction] = []
         self.__buy_count = 0
         self.__sell_count = 0
 
@@ -63,5 +73,14 @@ class TradeLog:
         self.__logs.append(transaction)
 
     def export(self, format: str) -> None:
-        if format.lower() not in ("json", "csv"):
+        format = format.lower()
+        if format not in ("json", "csv"):
             raise ValueError(f'Expecting \"json\" or \"csv\" format, got \"{format}\".')
+
+        if format == "json":
+            raw_data = [item.to_dict() for item in self.__logs]
+            export_path = os.path.join(os.getcwd(), "tradelogs.json")
+            with open(export_path, "w") as file:
+                json.dump(raw_data, file)
+
+        print(f'Wrote {len(self.__logs)} transactions to {format.upper()} file.')
