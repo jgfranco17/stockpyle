@@ -44,14 +44,16 @@ class SingleAssetTrader:
                 new_recommendation_created = False
                 side = None
                 price = df.iloc[-1]['Close']
+                df_fast = df.iloc[-1]['SMA_fast']
+                df_slow = df.iloc[-1]['SMA_slow']
 
-                if df.iloc[-1]['SMA_fast'] > df.iloc[-1]['SMA_slow'] and not self.__currently_holding:
+                if df_fast > df_slow and not self.__currently_holding:
                     print(f'Buy {self.__symbol} @ ${price:.2f}')
                     self.__currently_holding = True
                     side = "buy"
                     new_recommendation_created = True
 
-                elif df.iloc[-1]['SMA_fast'] < df.iloc[-1]['SMA_slow'] and self.__currently_holding:
+                elif df_fast < df_slow and self.__currently_holding:
                     print(f'Sell {self.__symbol} @ ${price:.2f}')
                     self.__currently_holding = False
                     side = "sell"
