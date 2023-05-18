@@ -11,6 +11,7 @@ help:  ## Show the help.
 .PHONY: setup
 setup:  ## Execute installation.
 	@echo "Setting up project."
+	@pip3 install --upgrade pip
 	@pip3 install --upgrade setuptools
 	@echo "Installing testing dependencies."
 	@pip3 install -r requirements-test.txt
