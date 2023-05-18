@@ -54,9 +54,7 @@ class SingleAssetTrader:
         while self.__is_running:
             try:
                 df = self._get_ticker_data(span=2)
-                del df['Dividends']
-                del df['Stock Splits']
-                del df['Volume']
+                del df['Dividends'], df['Stock Splits'], df['Volume']
 
                 df['SMA_fast'] = ta.sma(df['Close'], self.__interval_fast)
                 df['SMA_slow'] = ta.sma(df['Close'], self.__interval_slow)
