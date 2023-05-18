@@ -31,7 +31,7 @@ class Transaction:
 
     def to_dict(self) -> dict:
         return {
-            "date": self.date,
+            "date": str(self.date),
             "ticker": self.ticker,
             "side": self.side,
             "price": self.price
