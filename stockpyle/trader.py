@@ -22,14 +22,32 @@ class SingleAssetTrader:
         return self.__asset.ticker
 
     def _get_ticker_data(self, span: int) -> pd.DataFrame:
+        """
+        Retrieve ticker historical data.
+
+        Args:
+            span (int): Number of days prior to look into
+
+        Returns:
+            pd.DataFrame: Historical data
+        """
         start_date = (dt.datetime.now() - dt.timedelta(days=span)).strftime('%Y-%m-%d')
         return self.ticker.history(start=start_date, interval='1m')
 
     def _log_transaction(self, details: dict) -> None:
+        """
+        Log a transaction to the TradeLog.
+
+        Args:
+            details (dict): Transaction details
+        """
         transaction = Transaction(**details)
         self.__tradelog.update(transaction)
 
     def run(self) -> None:
+        """
+        Run the algorithmic trader continuously.
+        """
         self.__is_running = True
         print("Running algo trading...")
         while self.__is_running:
@@ -74,6 +92,6 @@ class SingleAssetTrader:
 
             except KeyboardInterrupt:
                 self.__is_running = False
-                print("Shutting down trading bot!")
+                print("\nShutting down trading bot!")
                 self.__tradelog.export()
                 break
