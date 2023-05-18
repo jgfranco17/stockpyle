@@ -4,6 +4,7 @@ import pandas as pd
 import pandas_ta as ta
 import yfinance as yf
 from .models import Asset, TradeLog, Transaction
+from .utils import get_pause
 
 
 class SingleAssetTrader:
@@ -65,7 +66,7 @@ class SingleAssetTrader:
                 else:
                     print(f'Currently no recommendations for {self.__symbol} stocks.')
                 
-                time.sleep(30)
+                time.sleep(get_pause())
 
             except KeyboardInterrupt:
                 self.__is_running = False
