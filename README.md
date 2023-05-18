@@ -36,12 +36,12 @@ This project is being developed on Ubuntu 22.04, but should work on MacOS or oth
 
 ### Creating a Virtual Environment
 
-It is recommended to create a virtual environment specifically for running the tests. This will ensure that the test environment has all the necessary dependencies installed without conflicting with the base interpreter.
+It is recommended to create a virtual environment. This will ensure that the working environment has all the necessary dependencies installed without conflicting with the base interpreter.
 
 ```bash
 # Create a virtual environment named "venv"
 python3 -m venv venv
-source test-env/bin/activate
+source venv/bin/activate
 ```
 
 ### Installing
