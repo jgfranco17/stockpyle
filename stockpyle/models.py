@@ -43,7 +43,7 @@ class AssetCollection:
         self.__symbols = symbols
         self.__assets = [Asset(symbol=symbol) for symbol in self.__symbols]
 
-    def add(self, symbol: str):
+    def add(self, symbol: str) -> None:
         new_asset = Asset(symbol=symbol.upper())
         self.__assets.append(new_asset)
 
@@ -51,8 +51,8 @@ class AssetCollection:
 class TradeLog:
     def __init__(self) -> None:
         self.__logs: List[Transaction] = []
-        self.__buy_count = 0
-        self.__sell_count = 0
+        self.__buy_count: int = 0
+        self.__sell_count: int = 0
 
     @property
     def buy_count(self) -> int:
