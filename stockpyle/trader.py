@@ -50,7 +50,7 @@ class SingleAssetTrader:
         Run the algorithmic trader continuously.
         """
         self.__is_running = True
-        print("Running algo trading...")
+        print(f'Running algo trading for {self.__symbol} stock...')
         while self.__is_running:
             try:
                 df = self._get_ticker_data(span=2)
@@ -91,8 +91,6 @@ class SingleAssetTrader:
                 if wait_interval:
                     for _ in tqdm(range(wait_interval), desc=f'Waiting {wait_interval}s'):
                         time.sleep(1)
-                else:
-                    continue
 
             except KeyboardInterrupt:
                 self.__is_running = False
