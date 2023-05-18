@@ -36,7 +36,7 @@ setup(
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
     author="jgfranco17",
-    packages=find_packages(exclude=["tests", ".github"]),
+    packages=find_packages(exclude=["tests", ".github", "venv"]),
     install_requires=read_requirements("requirements.txt"),
     entry_points={
         "console_scripts": ["capytal = capytal.__main__:main"]
