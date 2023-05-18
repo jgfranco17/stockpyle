@@ -27,7 +27,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-Before running the FizzBuzz Microservice API, make sure you have the following prerequisites installed:
+Before running Capytal, make sure you have the following prerequisites installed:
 
 * Python 3.8 or above
 * pip package manager
