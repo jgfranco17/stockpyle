@@ -72,15 +72,11 @@ class TradeLog:
 
         self.__logs.append(transaction)
 
-    def export(self, format: str) -> None:
-        format = format.lower()
-        if format not in ("json", "csv"):
-            raise ValueError(f'Expecting \"json\" or \"csv\" format, got \"{format}\".')
+    def export(self) -> None:
+        raw_data = [item.to_dict() for item in self.__logs]
+        export_path = os.path.join(os.getcwd(), "tradelogs.json")
 
-        if format == "json":
-            raw_data = [item.to_dict() for item in self.__logs]
-            export_path = os.path.join(os.getcwd(), "tradelogs.json")
-            with open(export_path, "w") as file:
-                json.dump(raw_data, file)
+        with open(export_path, "w") as file:
+            json.dump(raw_data, file)
 
-        print(f'Wrote {len(self.__logs)} transactions to {format.upper()} file.')
+        print(f'Wrote {len(self.__logs)} transactions to JSON file.')
