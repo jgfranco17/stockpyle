@@ -34,10 +34,10 @@ class SingleAssetTrader:
                 del df['Dividends']
                 del df['Stock Splits']
                 del df['Volume']
-                
+
                 df['SMA_fast'] = ta.sma(df['Close'], self.__interval_fast)
                 df['SMA_slow'] = ta.sma(df['Close'], self.__interval_slow)
-                
+
                 price = df.iloc[-1]['Close']
                 if df.iloc[-1]['SMA_fast'] > df.iloc[-1]['SMA_slow'] and not self.__currently_holding:
                     print(f'Buy {self.__symbol} @ ${price:.2f}')
@@ -50,7 +50,7 @@ class SingleAssetTrader:
                     transaction = Transaction(**transaction_details)
                     self.__tradelog.update(transaction)
                     self.__currently_holding = True
-                
+
                 elif df.iloc[-1]['SMA_fast'] < df.iloc[-1]['SMA_slow'] and self.__currently_holding:
                     print(f'Sell {self.__symbol} @ ${price:.2f}')
                     transaction_details = {
@@ -65,10 +65,11 @@ class SingleAssetTrader:
 
                 else:
                     print(f'Currently no recommendations for {self.__symbol} stocks.')
-                
+
                 time.sleep(get_pause())
 
             except KeyboardInterrupt:
                 self.__is_running = False
                 print("Shutting down trading bot!")
+                self.__tradelog.export(format="json")
                 break
