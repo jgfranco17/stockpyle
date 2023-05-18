@@ -29,14 +29,14 @@ These instructions will get you a copy of the project up and running on your loc
 
 Before running stockpyle, make sure you have the following prerequisites installed:
 
-* Python 3.8 or above
+* [Python 3.8](https://github.com/pyenv/pyenv) or above
 * pip package manager
 
 This project is being developed on Ubuntu 22.04, but should work on MacOS or other Linux distros.
 
 ### Creating a Virtual Environment
 
-It is recommended to create a virtual environment. This will ensure that the working environment has all the necessary dependencies installed without conflicting with the base interpreter.
+It is recommended to create a [virtual environment](https://docs.python.org/3/library/venv.html). This will ensure that the working environment has all the necessary dependencies installed without conflicting with the base interpreter.
 
 ```bash
 # Create a virtual environment named "venv"
