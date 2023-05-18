@@ -25,6 +25,10 @@ class SingleAssetTrader:
         start_date = (dt.datetime.now() - dt.timedelta(days=span)).strftime('%Y-%m-%d')
         return self.ticker.history(start=start_date, interval='1m')
 
+    def _log_transaction(self, details: dict) -> None:
+        transaction = Transaction(**details)
+        self.__tradelog.update(transaction)
+
     def run(self) -> None:
         self.__is_running = True
         print("Running algo trading...")
@@ -57,14 +61,12 @@ class SingleAssetTrader:
                     print(f'Currently no recommendations for {self.__symbol} stocks.')
 
                 if new_recommendation_created:
-                    transaction_details = {
+                    self._log_transaction({
                         "date": dt.datetime.now(),
                         "ticker": self.__symbol,
                         "side": side,
                         "price": price
-                    }
-                    transaction = Transaction(**transaction_details)
-                    self.__tradelog.update(transaction)
+                    })
 
                 time.sleep(get_pause())
 
