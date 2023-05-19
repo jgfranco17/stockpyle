@@ -5,13 +5,13 @@ import datetime as dt
 from stockpyle.models import Asset, Transaction, AssetCollection, TradeLog
 
 
-def test_asset_initialization():
+def test_asset_init():
     asset = Asset("AAPL")
     assert asset.symbol == "AAPL"
     assert not asset.holding
 
 
-def test_transaction_initialization():
+def test_transaction_init():
     transaction = Transaction(dt.datetime(2022, 1, 1), "AAPL", "buy", 100.0)
     assert transaction.date == dt.datetime(2022, 1, 1)
     assert transaction.ticker == "AAPL"
@@ -38,7 +38,7 @@ def test_transaction_to_dict():
     assert transaction.to_dict() == expected_dict
 
 
-def test_asset_collection_initialization(sample_assets):
+def test_asset_collection_init(sample_assets):
     asset_collection = AssetCollection(sample_assets)
     assert len(asset_collection._AssetCollection__assets) == 3
 
@@ -49,7 +49,7 @@ def test_asset_collection_add():
     assert len(asset_collection._AssetCollection__assets) == 1
 
 
-def test_trade_log_initialization():
+def test_trade_log_init():
     trade_log = TradeLog()
     assert len(trade_log._TradeLog__logs) == 0
     assert trade_log.buy_count == 0
