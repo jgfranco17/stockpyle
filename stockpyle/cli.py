@@ -7,7 +7,7 @@ def get_args():
     parser.add_argument("symbol",
                         type=str,
                         help="Stock ticker symbol to monitor")
-    parser.add_argument("--export-data", 
+    parser.add_argument("--export-data",
                         default=False, action="store_true",
                         help="Export the transaction history as JSON")
     args = parser.parse_args()
