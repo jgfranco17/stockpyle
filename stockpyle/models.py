@@ -74,9 +74,11 @@ class TradeLog:
 
     def export(self) -> None:
         raw_data = [item.to_dict() for item in self.__logs]
-        export_path = os.path.join(os.getcwd(), "tradelogs.json")
+        now = dt.datetime.now()
+        timestamp = now.strftime("%d-%b-%Y_%H%M")
+        export_path = os.path.join(os.getcwd(), f'tradelogs_{timestamp}.json')
 
         with open(export_path, "w") as file:
             json.dump(raw_data, file)
 
-        print(f'Wrote {len(self.__logs)} transactions to JSON file.')
+        print(f'Wrote {len(self.__logs)} transactions ({self.buy_count} buys, {self.sell_count} sells) to JSON file.')
