@@ -8,16 +8,16 @@ from dataclasses import dataclass, field
 
 @dataclass
 class Asset:
-    symbol: str
-    holding: bool = False
-    ticker: yf.Ticker = field(init=False)
+    symbol: str = field(compare=True)
+    holding: bool = field(compare=True, default=False)
+    ticker: yf.Ticker = field(init=False, repr=False)
 
     def __post_init__(self):
         self.symbol = self.symbol.upper()
         self.ticker = yf.Ticker(self.symbol)
 
 
-@dataclass
+@dataclass(repr=True)
 class Transaction:
     date: dt.datetime
     ticker: str
