@@ -29,7 +29,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 Before running stockpyle, make sure you have the following prerequisites installed:
 
-* [Python 3.8](https://github.com/pyenv/pyenv) or above
+* [Python 3.9](https://github.com/pyenv/pyenv) or above
 * pip package manager
 
 This project is being developed on Ubuntu 22.04, but should work on MacOS or other Linux distros.
