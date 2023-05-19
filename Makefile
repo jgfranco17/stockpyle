@@ -1,5 +1,6 @@
 .ONESHELL:
 ENV_PREFIX=$(shell python -c "if __import__('pathlib').Path('.venv/bin/pip').exists(): print('.venv/bin/')")
+STOCK_SYMBOL="MSFT"
 
 .PHONY: help
 help:  ## Show the help.
@@ -22,7 +23,7 @@ setup:  ## Execute installation.
 .PHONY: run
 run:  ## Run trader.
 	@echo "Running main app..."
-	@python3 app.py
+	@python3 app.py --export-data $(STOCK_SYMBOL)
 
 .PHONY: test
 test:  ## Run PyTest unit tests.
