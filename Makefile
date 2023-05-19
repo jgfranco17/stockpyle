@@ -33,7 +33,7 @@ test:  ## Run PyTest unit tests.
 .PHONY: lint
 lint:  ## Run pep8, black, mypy linters.
 	$(ENV_PREFIX)pylint stockpyle/
-	$(ENV_PREFIX)flake8 stockpyle/
+	$(ENV_PREFIX)flake8 --extend-ignore E501 stockpyle/
 	$(ENV_PREFIX)black -l 80 --check stockpyle/
 	$(ENV_PREFIX)mypy --ignore-missing-imports stockpyle/
 
