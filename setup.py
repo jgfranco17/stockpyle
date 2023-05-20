@@ -1,5 +1,5 @@
 """
-Python setup.py for capytal package
+Python setup.py for stockpyle package
 """
 import io
 import os
@@ -28,17 +28,17 @@ def read_requirements(path):
 
 
 setup(
-    name="capytal",
-    version=read("capytal", "VERSION"),
+    name="stockpyle",
+    version=read("stockpyle", "VERSION"),
     description="Python-based algorithmic trading bot",
-    url="https://github.com/jgfranco17/capytal/",
+    url="https://github.com/jgfranco17/stockpyle/",
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
     author="jgfranco17",
     packages=find_packages(exclude=["tests", ".github", "venv"]),
     install_requires=read_requirements("requirements.txt"),
     entry_points={
-        "console_scripts": ["capytal = capytal.__main__:main"]
+        "console_scripts": ["stockpyle = stockpyle.__main__:main"]
     },
     extras_require={"test": read_requirements("requirements-test.txt")},
 )
