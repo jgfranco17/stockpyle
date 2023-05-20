@@ -76,7 +76,9 @@ class TradeLog:
         raw_data = [item.to_dict() for item in self.__logs]
         now = dt.datetime.now()
         timestamp = now.strftime("%d-%b-%Y_%H%M")
-        export_path = os.path.join(os.getcwd(), f'tradelogs_{timestamp}.json')
+        export_directory = os.path.join(os.getcwd(), "trades")
+        os.makedirs(export_directory, exist_ok=True)
+        export_path = os.path.join(export_directory, f'tradelogs_{timestamp}.json')
 
         with open(export_path, "w") as file:
             json.dump(raw_data, file)
