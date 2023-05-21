@@ -20,7 +20,7 @@ class SingleAssetTrader:
         self.__currently_holding = False
         self.__is_running = False
 
-    def __repr__(self) -> str:
+    def __str__(self) -> str:
         return f'SingleAssetTrader(symbol={self.__symbol}, holding={self.__holding})'
 
     @property
