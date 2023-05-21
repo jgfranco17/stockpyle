@@ -5,25 +5,31 @@ from stockpyle.transactions import Transaction, TradeLog
 
 def test_trade_log_init():
     trade_log = TradeLog()
-    assert len(trade_log._TradeLog__logs) == 0
+    assert len(trade_log) == 0
     assert trade_log.buy_count == 0
     assert trade_log.sell_count == 0
 
 
-def test_trade_log_update_buy():
+def test_trade_log_attributes(sample_transactions):
     trade_log = TradeLog()
-    transaction = Transaction(dt.datetime(2022, 1, 1), "AAPL", "buy", 100.0)
-    trade_log.update(transaction)
-    assert len(trade_log._TradeLog__logs) == 1
+    for transaction in sample_transactions:
+        trade_log.update(transaction)
+    assert len(trade_log) == len(sample_transactions)
+    assert len(trade_log) == trade_log.buy_count + trade_log.sell_count
+
+
+def test_trade_log_update_buy(sample_buy_transaction):
+    trade_log = TradeLog()
+    trade_log.update(sample_buy_transaction)
+    assert len(trade_log) == 1
     assert trade_log.buy_count == 1
     assert trade_log.sell_count == 0
 
 
-def test_trade_log_update_sell():
+def test_trade_log_update_sell(sample_sell_transaction):
     trade_log = TradeLog()
-    transaction = Transaction(dt.datetime(2022, 1, 1), "AAPL", "sell", 100.0)
-    trade_log.update(transaction)
-    assert len(trade_log._TradeLog__logs) == 1
+    trade_log.update(sample_sell_transaction)
+    assert len(trade_log) == 1
     assert trade_log.buy_count == 0
     assert trade_log.sell_count == 1
 
