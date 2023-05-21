@@ -19,6 +19,9 @@ class AssetCollection:
         self.__symbols = symbols
         self.__assets = [Asset(symbol=symbol) for symbol in self.__symbols]
 
+    def __len__(self) -> int:
+        return len(self.__assets)
+
     def add(self, symbol: str) -> None:
         new_asset = Asset(symbol=symbol.upper())
         self.__assets.append(new_asset)
