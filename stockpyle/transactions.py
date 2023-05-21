@@ -1,7 +1,7 @@
 import os
 import json
 import datetime as dt
-from typing import List
+from typing import List, Tuple
 from dataclasses import dataclass
 
 
@@ -32,6 +32,16 @@ class TradeLog:
         self.__logs: List[Transaction] = []
         self.__buy_count: int = 0
         self.__sell_count: int = 0
+
+    def __getitem__(self, key: str) -> Tuple[Transaction]:
+        if key not in ("buy", "sell"):
+            raise KeyError(f'Invalid key \"{key}\" provided.')
+
+        return (item for item in self.__logs if item.side == key.lower())
+
+    def __iter__(self) -> Transaction:
+        for item in self.__logs:
+            yield item
 
     @property
     def buy_count(self) -> int:
