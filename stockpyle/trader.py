@@ -5,7 +5,8 @@ import pandas as pd
 import pandas_ta as ta
 import yfinance as yf
 from tqdm import tqdm
-from .models import Asset, TradeLog, Transaction
+from .assets import Asset
+from .transactions import TradeLog, Transaction
 from .utils import get_pause
 
 
@@ -18,6 +19,9 @@ class SingleAssetTrader:
         self.__tradelog = TradeLog()
         self.__currently_holding = False
         self.__is_running = False
+
+    def __repr__(self) -> str:
+        return f'SingleAssetTrader(symbol={self.__symbol}, holding={self.__holding})'
 
     @property
     def ticker(self) -> yf.Ticker:
