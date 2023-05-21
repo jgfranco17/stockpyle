@@ -1,6 +1,6 @@
 import pytest
 import datetime as dt
-from stockpyle.models import Transaction, TradeLog
+from stockpyle.transactions import Transaction, TradeLog
 
 
 def test_trade_log_init():

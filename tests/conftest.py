@@ -1,7 +1,7 @@
 import pytest
 import datetime as dt
 from unittest.mock import MagicMock
-from stockpyle.models import Transaction
+from projects.stockpyle.stockpyle.assets import Transaction
 
 
 @pytest.fixture

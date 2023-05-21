@@ -1,5 +1,5 @@
 import pytest
-from projects.stockpyle.stockpyle.assets import Asset, AssetCollection
+from stockpyle.assets import Asset, AssetCollection
 
 
 def test_asset_init():

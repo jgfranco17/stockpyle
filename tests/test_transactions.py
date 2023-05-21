@@ -1,5 +1,5 @@
 import datetime as dt
-from stockpyle.models import Transaction
+from stockpyle.transactions import Transaction
 
 
 def test_transaction_init():
