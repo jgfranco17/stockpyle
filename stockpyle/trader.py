@@ -1,5 +1,6 @@
 import time
 import datetime as dt
+from typing import Optional
 import pandas as pd
 import pandas_ta as ta
 import yfinance as yf
@@ -45,7 +46,7 @@ class SingleAssetTrader:
         transaction = Transaction(**details)
         self.__tradelog.update(transaction)
 
-    def run(self, save: bool = False) -> None:
+    def run(self, save: Optional[bool] = False) -> None:
         """
         Run the algorithmic trader continuously.
         """
