@@ -21,7 +21,7 @@ class SingleAssetTrader:
         self.__is_running = False
 
     def __str__(self) -> str:
-        return f'SingleAssetTrader(symbol={self.__symbol}, holding={self.__holding})'
+        return f'SingleAssetTrader(symbol={self.__symbol}, holding={self.__currently_holding})'
 
     @property
     def ticker(self) -> yf.Ticker:

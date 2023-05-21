@@ -1,9 +1,8 @@
 import os
 import json
 import datetime as dt
-from typing import List, Tuple
+from typing import List, Generator
 from dataclasses import dataclass
-
 
 
 @dataclass(repr=True)
@@ -47,7 +46,7 @@ class TradeLog:
 
         return output
 
-    def __iter__(self) -> Transaction:
+    def __iter__(self) -> Generator:
         for item in self.__full_history:
             yield item
 
