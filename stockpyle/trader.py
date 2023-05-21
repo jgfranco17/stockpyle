@@ -8,6 +8,7 @@ from tqdm import tqdm
 from .assets import Asset
 from .transactions import TradeLog, Transaction
 from .utils import get_pause
+from .algorithm import AlgorithmComputer
 
 
 class SingleAssetTrader:
@@ -19,6 +20,7 @@ class SingleAssetTrader:
         self.__tradelog = TradeLog()
         self.__currently_holding = False
         self.__is_running = False
+        self.algorithm = AlgorithmComputer(symbol=self.__symbol)
 
     def __str__(self) -> str:
         return f'SingleAssetTrader(symbol={self.__symbol}, holding={self.__currently_holding})'
@@ -26,19 +28,6 @@ class SingleAssetTrader:
     @property
     def ticker(self) -> yf.Ticker:
         return self.__asset.ticker
-
-    def _get_ticker_data(self, span: int) -> pd.DataFrame:
-        """
-        Retrieve ticker historical data.
-
-        Args:
-            span (int): Number of days prior to look into
-
-        Returns:
-            pd.DataFrame: Historical data
-        """
-        start_date = (dt.datetime.now() - dt.timedelta(days=span)).strftime('%Y-%m-%d')
-        return self.ticker.history(start=start_date, interval='1m')
 
     def _log_transaction(self, details: dict) -> None:
         """
@@ -58,32 +47,7 @@ class SingleAssetTrader:
         print(f'Running algo trading for {self.__symbol} stock...')
         while self.__is_running:
             try:
-                df = self._get_ticker_data(span=2)
-                del df['Dividends'], df['Stock Splits'], df['Volume']
-
-                df['SMA_fast'] = ta.sma(df['Close'], self.__interval_fast)
-                df['SMA_slow'] = ta.sma(df['Close'], self.__interval_slow)
-                new_recommendation_created = False
-                side = None
-                price = df.iloc[-1]['Close']
-                df_fast = df.iloc[-1]['SMA_fast']
-                df_slow = df.iloc[-1]['SMA_slow']
-
-                if df_fast > df_slow and not self.__currently_holding:
-                    print(f'Buy {self.__symbol} @ ${price:.2f}')
-                    self.__currently_holding = True
-                    side = "buy"
-                    new_recommendation_created = True
-
-                elif df_fast < df_slow and self.__currently_holding:
-                    print(f'Sell {self.__symbol} @ ${price:.2f}')
-                    self.__currently_holding = False
-                    side = "sell"
-                    new_recommendation_created = True
-
-                else:
-                    print(f'Currently no recommendations for {self.__symbol} stocks.')
-
+                new_recommendation_created, side, price = self.algorithm.compute()
                 if new_recommendation_created:
                     self._log_transaction({
                         "date": dt.datetime.now(),
@@ -99,7 +63,8 @@ class SingleAssetTrader:
 
             except KeyboardInterrupt:
                 self.__is_running = False
-                print("\nShutting down trading bot!")
+                print("*" * 20)
+                print("Shutting down trading bot!")
                 if save:
                     self.__tradelog.export()
                 break
