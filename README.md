@@ -18,17 +18,17 @@
 
 ## 🔎 About <a name = "about"></a>
 
-Stockpyle Trading Bot is an Python-based trading bot that leverages algorithmic strategies to automate trading activities in financial markets.
+Stockpyle is a Python-based trading bot that leverages algorithmic strategies to automate trading activities in financial markets.
 
 ### Background
 
 Algorithmic trading has gained significant popularity in financial markets due to its potential to automate trading decisions, increase efficiency, and exploit market opportunities. By leveraging advanced data analysis and execution algorithms, algorithmic trading bots can execute trades with precision and speed, allowing traders to capitalize on market movements in a timely manner.
 
-This project aims to provide a comprehensive solution for developing and deploying algorithmic trading bots using Python. It combines expertise in Python programming and financial markets to empower users to design, code, backtest, and optimize their own algorithmic trading strategies.
+Stockpyle aims to provide a comprehensive solution for developing and deploying algorithmic trading bots using Python. It combines expertise in Python programming and financial markets to empower users to design, code, backtest, and optimize their own algorithmic trading strategies.
 
 ### Motivation
 
-The motivation behind this project is to address the challenges faced by traders who wish to engage in algorithmic trading but lack the necessary tools, knowledge, or resources. By providing a robust and user-friendly framework, this project aims to democratize algorithmic trading and empower individuals to participate in the financial markets effectively.
+Stockpyle aims to combine the powers of software engineering and financial analysis in order to enhance algorithmic trading.
 
 The key motivations for building this algorithmic trading bot framework are:
 
@@ -36,13 +36,7 @@ The key motivations for building this algorithmic trading bot framework are:
 
 2. **Backtesting and Optimization**: By providing tools for backtesting trading strategies using historical data, traders can evaluate the performance of their algorithms under various market conditions. This helps in identifying and optimizing strategies that have the potential for consistent profitability.
 
-3. **Risk Management**: Implementing risk management techniques is crucial to protect capital and manage potential losses. This project emphasizes incorporating risk management functionalities, such as position sizing and stop-loss orders, into the algorithmic trading bots to ensure responsible and prudent trading practices.
-
-4. **Flexibility and Customization**: Every trader has unique trading preferences and requirements. This project offers a flexible framework that allows users to customize their trading strategies, integrate preferred financial market APIs, and adapt the bot to suit their specific trading goals.
-
-5. **Learning and Education**: The project aims to provide educational resources, documentation, and code samples to help users deepen their understanding of algorithmic trading concepts, Python programming, and the financial markets. It serves as a learning platform for both novice and experienced traders to enhance their trading skills.
-
-Through this project, we strive to foster innovation and empower individuals to participate in algorithmic trading with confidence and competence.
+3. **Risk Management**: Implementing risk management techniques is crucial to protect capital and manage potential losses. Stockpyle emphasizes incorporating risk management functionalities, such as position sizing and stop-loss orders, into the algorithmic trading bots to ensure responsible and prudent trading practices.
 
 ---
 
@@ -62,7 +56,7 @@ Before running stockpyle, make sure you have the following prerequisites install
 * [Python 3.9](https://github.com/pyenv/pyenv) or above
 * pip package manager
 
-This project is being developed on Ubuntu 22.04, but should work on MacOS or other Linux distros.
+Stockpyle is being developed on Ubuntu 22.04, but should work on MacOS or other Linux distros.
 
 ### Creating a Virtual Environment
 
@@ -76,7 +70,7 @@ source venv/bin/activate
 
 ### Installing
 
-To get started with this project, clone the repository to your local machine and install the required dependencies.
+To get started with Stockpyle, clone the repository to your local machine and install the required dependencies.
 
 ```bash
 git clone https://github.com/jgfranco17/stockpyle.git
