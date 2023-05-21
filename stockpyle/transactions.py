@@ -29,47 +29,69 @@ class Transaction:
 
 class TradeLog:
     def __init__(self) -> None:
-        self.__logs: List[Transaction] = []
-        self.__buy_count: int = 0
-        self.__sell_count: int = 0
+        self.__full_history: List[Transaction] = []
+        self.__buy_history: List[Transaction] = []
+        self.__sell_history: List[Transaction] = []
 
-    def __getitem__(self, key: str) -> Tuple[Transaction]:
-        if key not in ("buy", "sell"):
-            raise KeyError(f'Invalid key \"{key}\" provided.')
+    def __len__(self) -> int:
+        return len(self.__full_history)
 
-        return (item for item in self.__logs if item.side == key.lower())
+    def __getitem__(self, key: str) -> List[Transaction]:
+        output = []
+        if key == "buy":
+            output = self.__buy_history
+        elif key == "sell":
+            output = self.__sell_history
+        else:
+            raise ValueError(f'Expecting \"buy\" or \"sell\", got \"{key}\".')
+
+        return output
 
     def __iter__(self) -> Transaction:
-        for item in self.__logs:
+        for item in self.__full_history:
             yield item
 
     @property
     def buy_count(self) -> int:
-        return self.__buy_count
+        return len(self.__buy_history)
 
     @property
     def sell_count(self) -> int:
-        return self.__sell_count
+        return len(self.__sell_history)
+
+    @property
+    def history(self) -> list:
+        return self.__full_history
 
     def update(self, transaction: Transaction) -> None:
+        """
+        Add a transaction to the log history.
+
+        Args:
+            transaction (Transaction): New transaction
+
+        Raises:
+            ValueError: if transaction is invalid
+        """
         if transaction.side == "buy":
-            self.__buy_count += 1
+            self.__buy_history.append(transaction)
         elif transaction.side == "sell":
-            self.__sell_count += 1
+            self.__sell_history.append(transaction)
         else:
             raise ValueError(f'Expecting \"buy\" or \"sell\", got \"{transaction.side}\".')
 
-        self.__logs.append(transaction)
+        self.__full_history.append(transaction)
 
     def export(self) -> None:
-        raw_data = [item.to_dict() for item in self.__logs]
-        now = dt.datetime.now()
-        timestamp = now.strftime("%d-%b-%Y_%H%M")
+        buy_data = [item.to_dict() for item in self.__buy_history]
+        sell_data = [item.to_dict() for item in self.__sell_history]
+        json_data = {"buy": buy_data, "sell": sell_data}
+        timestamp = dt.datetime.now().strftime("%d-%b-%Y_%H%M")
         export_directory = os.path.join(os.getcwd(), "trades")
         os.makedirs(export_directory, exist_ok=True)
         export_path = os.path.join(export_directory, f'tradelogs_{timestamp}.json')
 
         with open(export_path, "w") as file:
-            json.dump(raw_data, file)
+            json.dump(json_data, file)
 
-        print(f'Wrote {len(self.__logs)} transactions ({self.buy_count} buys, {self.sell_count} sells) to JSON file.')
+        print(f'Wrote {len(self.__full_history)} transactions ({self.buy_count} buys, {self.sell_count} sells) to JSON file.')
