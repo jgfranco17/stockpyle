@@ -13,6 +13,9 @@ class Asset:
         self.symbol = self.symbol.upper()
         self.ticker = yf.Ticker(self.symbol)
 
+    def update_holding(self) -> None:
+        self.holding = not self.holding
+
 
 class AssetCollection:
     def __init__(self, symbols: List[str]):
