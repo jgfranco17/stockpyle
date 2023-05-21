@@ -14,6 +14,7 @@
 * [About](#about)
 * [Getting Started](#getting_started)
 * [Usage](#usage)
+* [Testing](#testing)
 * [Authors](#authors)
 
 ## 🔎 About <a name = "about"></a>
@@ -51,7 +52,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-Before running stockpyle, make sure you have the following prerequisites installed:
+Before running Stockpyle, make sure you have the following prerequisites installed:
 
 * [Python 3.9](https://github.com/pyenv/pyenv) or above
 * pip package manager
@@ -82,6 +83,57 @@ pip install -r requirements.txt
 
 As the project progresses, usage instructions will be provided here.
 
+### CLI usage
+
+To run the bot, simply execute either of the following commands. If you choose to use the Makefile option, remember to set your preference of stock symbol in the top variables.
+
+```bash
+# Use the prebuilt Makefile
+make run
+
+# Specify your own configuration
+python3 app.py <stock symbol>
+```
+
+If you wish to export the trading logs as a JSON file, add in the optional `--export-data` flag.
+
+```bash
+python3 app.py <stock symbol> --export-data
+```
+
+## 🔧 Testing <a name = "testing"></a>
+
+In order to run diagnostics and unittests, install the testing dependencies found in the `requirements-test.txt` file. This will allow you to utilize the full capacity of the test modules we have built.
+
+To run the full test suite, run the Makefile command as follows:
+
+```bash
+make test
+```
+
+This will run the test module and generates a detailed result report.
+
+### Using PyTest CLI
+
+You can run these tests using the [PyTest](https://docs.pytest.org/en/7.3.x/) CLI. To run all tests in the directory containing the test files, navigate to the directory and enter `pytest` in the command line; for added verbosity, add the `-vv` flag after. To run a specific test file, enter `pytest <filename>`.
+
+```bash
+# Run all tests in the testing module with full detail
+pytest -vv
+
+# Run a specific test file
+cd stockpyle/tests
+pytest test_transactions.py
+```
+
+### Why these tests are important
+
+Running these unittests is necessary to ensure that the code is functioning as expected and meeting the requirements of the design specification. The unittests are designed to test each function and method of the code and to identify any errors or unexpected behavior. By testing the code using these PyTest unittests, we can ensure that the code meets the specified requirements and that any changes made to the code do not introduce new bugs or errors.
+
+In addition, these tests can be automated to run on every code change, allowing us to quickly identify any issues that may arise and enabling us to maintain a high level of code quality. 
+
+In essence, running these PyTest unittests is a critical part of the software QA process and helps to ensure that our code is robust, reliable, and meets the needs of our end-users before the product hits deployment.
+
 ## ✒️ Authors <a name = "authors"></a>
 
-* [Chino Franco](https://github.com/jgfranco17) 
+* [Joaquin Franco](https://github.com/jgfranco17) 
