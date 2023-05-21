@@ -1,7 +1,7 @@
 import pytest
 import datetime as dt
 from unittest.mock import MagicMock
-from projects.stockpyle.stockpyle.assets import Transaction
+from stockpyle.transactions import Transaction
 
 
 @pytest.fixture
@@ -23,3 +23,13 @@ def sample_transactions():
         Transaction(dt.datetime(2022, 1, 2), "GOOGL", "sell", 200.0),
         Transaction(dt.datetime(2022, 1, 3), "MSFT", "buy", 150.0),
     ]
+
+
+@pytest.fixture
+def sample_buy_transaction():
+    return Transaction(dt.datetime(2022, 1, 1), "AAPL", "buy", 100.0)
+
+
+@pytest.fixture
+def sample_sell_transaction():
+    return Transaction(dt.datetime(2022, 1, 1), "AAPL", "sell", 100.0)
