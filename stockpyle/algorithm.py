@@ -9,8 +9,7 @@ class AlgorithmComputer:
     def __init__(self, symbol: str, interval_fast: int = 10, interval_slow: int = 30) -> None:
         self.__symbol = symbol.upper()
         self.__asset = Asset(symbol=self.__symbol, holding=False)
-        self.__interval_fast = interval_fast
-        self.__interval_slow = interval_slow
+        self.__interval = {"slow": interval_slow, "fast": interval_fast}
 
     def _get_ticker_data(self, span: int) -> pd.DataFrame:
         """
@@ -22,8 +21,15 @@ class AlgorithmComputer:
         Returns:
             pd.DataFrame: Historical data
         """
+        # Retrieve yfinance data
         start_date = (dt.datetime.now() - dt.timedelta(days=span)).strftime('%Y-%m-%d')
-        return self.__asset.ticker.history(start=start_date, interval='1m')
+        dataframe = self.__asset.ticker.history(start=start_date, interval='1m')
+
+        # Postprocessing
+        del dataframe['Dividends'], dataframe['Stock Splits'], dataframe['Volume']
+        dataframe['SMA_fast'] = ta.sma(dataframe['Close'], self.__interval["fast"])
+        dataframe['SMA_slow'] = ta.sma(dataframe['Close'], self.__interval["slow"])
+        return dataframe
 
     def compute(self) -> Tuple[bool, str, float]:
         """
@@ -34,28 +40,25 @@ class AlgorithmComputer:
             str: Transaction side
             float: Price of recommended transaction
         """
+        new_recommendation_created: bool = False
+        side: str = "none"
         df = self._get_ticker_data(span=2)
-        new_recommendation_created = False
-        side = None
-        del df['Dividends'], df['Stock Splits'], df['Volume']
-
-        df['SMA_fast'] = ta.sma(df['Close'], self.__interval_fast)
-        df['SMA_slow'] = ta.sma(df['Close'], self.__interval_slow)
-        price = df.iloc[-1]['Close']
+        price: int = df.iloc[-1]['Close']
         df_fast = df.iloc[-1]['SMA_fast']
         df_slow = df.iloc[-1]['SMA_slow']
 
+        # Determine course of action
         if df_fast > df_slow and not self.__asset.holding:
             print(f'Buy {self.__symbol} @ ${price:.2f}')
-            self.__asset.holding = True
             side = "buy"
             new_recommendation_created = True
+            self.__asset.update_holding(status=True)
 
         elif df_fast < df_slow and self.__asset.holding:
             print(f'Sell {self.__symbol} @ ${price:.2f}')
-            self.__asset.holding = False
             side = "sell"
             new_recommendation_created = True
+            self.__asset.update_holding(status=False)
 
         else:
             print(f'Currently no recommendations for {self.__symbol} stocks.')
