@@ -20,7 +20,11 @@ class SingleAssetTrader:
         self.__tradelog = TradeLog()
         self.__currently_holding = False
         self.__is_running = False
-        self.algorithm = AlgorithmComputer(symbol=self.__symbol)
+        self.algorithm = AlgorithmComputer(
+            symbol=self.__symbol,
+            interval_fast=interval_fast,
+            interval_slow=interval_slow
+        )
 
     def __str__(self) -> str:
         return f'SingleAssetTrader(symbol={self.__symbol}, holding={self.__currently_holding})'
