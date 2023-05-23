@@ -10,7 +10,8 @@ from .assets import Asset
 
 class AlgorithmComputer:
     def __init__(self, symbol: str, interval_fast: int = 10, interval_slow: int = 30) -> None:
-        self.__asset = Asset(symbol=symbol, holding=False)
+        self.__symbol = symbol.upper()
+        self.__asset = Asset(symbol=self.__symbol, holding=False)
         self.__interval_fast = interval_fast
         self.__interval_slow = interval_slow
 
@@ -28,6 +29,14 @@ class AlgorithmComputer:
         return self.__asset.ticker.history(start=start_date, interval='1m')
 
     def compute(self) -> Tuple[bool, str, float]:
+        """
+        Run the algorithm using the retrieved dataframe.
+
+        Returns:
+            bool: True if the algorithm creates a new recommendation
+            str: Transaction side
+            float: Price of recommended transaction
+        """
         df = self._get_ticker_data(span=2)
         new_recommendation_created = False
         side = None
