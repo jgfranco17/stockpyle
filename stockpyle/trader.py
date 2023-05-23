@@ -1,9 +1,7 @@
 import time
 import datetime as dt
 from typing import Optional
-import yfinance as yf
 from tqdm import tqdm
-from .assets import Asset
 from .transactions import TradeLog, Transaction
 from .utils import get_pause
 from .algorithm import AlgorithmComputer
@@ -12,9 +10,7 @@ from .algorithm import AlgorithmComputer
 class SingleAssetTrader:
     def __init__(self, symbol: str, interval_fast: int = 10, interval_slow: int = 30) -> None:
         self.__symbol = symbol.upper()
-        self.__asset = Asset(symbol=self.__symbol, holding=False)
         self.__tradelog = TradeLog()
-        self.__currently_holding = False
         self.__is_running = False
         self.algorithm = AlgorithmComputer(
             symbol=self.__symbol,
@@ -23,11 +19,7 @@ class SingleAssetTrader:
         )
 
     def __str__(self) -> str:
-        return f'SingleAssetTrader(symbol={self.__symbol}, holding={self.__currently_holding})'
-
-    @property
-    def ticker(self) -> yf.Ticker:
-        return self.__asset.ticker
+        return f'SingleAssetTrader(symbol={self.__symbol})'
 
     def _log_transaction(self, details: dict) -> None:
         """
