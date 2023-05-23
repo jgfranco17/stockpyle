@@ -1,8 +1,5 @@
 import datetime as dt
-import numba
-import numpy as np
 import pandas as pd
-import yfinance as yf
 import pandas_ta as ta
 from typing import Tuple
 from .assets import Asset

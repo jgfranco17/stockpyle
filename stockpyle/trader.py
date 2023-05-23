@@ -1,8 +1,6 @@
 import time
 import datetime as dt
 from typing import Optional
-import pandas as pd
-import pandas_ta as ta
 import yfinance as yf
 from tqdm import tqdm
 from .assets import Asset
@@ -15,8 +13,6 @@ class SingleAssetTrader:
     def __init__(self, symbol: str, interval_fast: int = 10, interval_slow: int = 30) -> None:
         self.__symbol = symbol.upper()
         self.__asset = Asset(symbol=self.__symbol, holding=False)
-        self.__interval_fast = interval_fast
-        self.__interval_slow = interval_slow
         self.__tradelog = TradeLog()
         self.__currently_holding = False
         self.__is_running = False
