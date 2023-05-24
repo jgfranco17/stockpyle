@@ -20,10 +20,20 @@ def read(*paths, **kwargs):
 
 
 def read_requirements(path):
+    """
+    Read the requirements file and generate a list of requirements.
+
+    Args:
+        path (str): File path to the requirements file.
+
+    Returns:
+        list: Parsed requirements
+    """
+    exempted_symbols = ('"', "#", "-", "git+")
     return [
         line.strip()
         for line in read(path).split("\n")
-        if not line.startswith(('"', "#", "-", "git+"))
+        if not line.startswith(exempted_symbols)
     ]
 
 
