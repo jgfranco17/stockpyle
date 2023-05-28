@@ -11,6 +11,10 @@ class AlgorithmComputer:
         self.__asset = Asset(symbol=self.__symbol, holding=False)
         self.__interval = {"slow": interval_slow, "fast": interval_fast}
 
+    @property
+    def asset(self) -> Asset:
+        return self.__asset
+
     def _get_ticker_data(self, span: int) -> pd.DataFrame:
         """
         Retrieve ticker historical data.
@@ -31,6 +35,11 @@ class AlgorithmComputer:
         dataframe['SMA_slow'] = ta.sma(dataframe['Close'], self.__interval["slow"])
         return dataframe
 
+    @staticmethod
+    def _get_metrics(dataframe: pd.DataFrame) -> Tuple[float, float, float]:
+        metrics = ("Close", "SMA_fast", "SMA_slow")
+        return (dataframe.iloc[-1][key] for key in metrics)
+
     def compute(self) -> Tuple[bool, str, float]:
         """
         Run the algorithm using the retrieved dataframe.
@@ -43,9 +52,7 @@ class AlgorithmComputer:
         new_recommendation_created: bool = False
         side: str = "none"
         df = self._get_ticker_data(span=2)
-        price: int = df.iloc[-1]['Close']
-        df_fast = df.iloc[-1]['SMA_fast']
-        df_slow = df.iloc[-1]['SMA_slow']
+        price, df_fast, df_slow = self._get_metrics(df)
 
         # Determine course of action
         if df_fast > df_slow and not self.__asset.holding:
