@@ -1,5 +1,6 @@
 import time
 import datetime as dt
+import matplotlib.pyplot as plt
 from typing import Optional
 from tqdm import tqdm
 from .transactions import TradeLog, Transaction
@@ -10,7 +11,7 @@ from .algorithm import AlgorithmComputer
 class SingleAssetTrader:
     def __init__(self, symbol: str, interval_fast: int = 10, interval_slow: int = 30) -> None:
         self.__symbol = symbol.upper()
-        self.__tradelog = TradeLog()
+        self.tradelog = TradeLog()
         self.__is_running = False
         self.algorithm = AlgorithmComputer(
             symbol=self.__symbol,
@@ -29,7 +30,7 @@ class SingleAssetTrader:
             details (dict): Transaction details
         """
         transaction = Transaction(**details)
-        self.__tradelog.update(transaction)
+        self.tradelog.update(transaction)
 
     def run(self, save: Optional[bool] = False) -> None:
         """
@@ -58,5 +59,12 @@ class SingleAssetTrader:
                 print("*" * 20)
                 print("Shutting down trading bot!")
                 if save:
-                    self.__tradelog.export()
+                    self.tradelog.export()
                 break
+
+    def plot(self, side: str) -> None:
+        dates = [transaction.date for transaction in self.tradelog if transaction.side == side.lower()]
+        prices = [transaction.price for transaction in self.tradelog if transaction.side == side.lower()]
+        print(f'PRICE TREND FOR {side.upper()} SIDE')
+        plt.plot(dates, prices, color="limegreen")
+        plt.show()
