@@ -63,8 +63,19 @@ class SingleAssetTrader:
                 break
 
     def plot(self, side: str) -> None:
-        dates = [transaction.date for transaction in self.tradelog if transaction.side == side.lower()]
-        prices = [transaction.price for transaction in self.tradelog if transaction.side == side.lower()]
-        print(f'PRICE TREND FOR {side.upper()} SIDE')
-        plt.plot(dates, prices, color="limegreen")
-        plt.show()
+        try:
+            if side.lower() not in ("buy", "sell"):
+                raise KeyError(f'Side \"{side}\" not supported.')
+
+            dataset = self.tradelog[side.lower()]
+            if not dataset:
+                raise ValueError(f'No data available yet for {side.lower()} side.')
+
+            dates = [transaction.date for transaction in self.tradelog[side.lower()]]
+            prices = [transaction.price for transaction in self.tradelog[side.lower()]]
+            print(f'PRICE TREND FOR {side.upper()} SIDE')
+            plt.plot(dates, prices, color="limegreen")
+            plt.show()
+
+        except (ValueError, KeyError) as error:
+            print(f'Failed to plot data: {error}')
